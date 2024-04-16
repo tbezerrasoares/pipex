@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utis.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbezerra <tbezerra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 13:52:28 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/04/16 11:01:20 by tbezerra         ###   ########.fr       */
+/*   Created: 2024/04/16 11:24:33 by tbezerra          #+#    #+#             */
+/*   Updated: 2024/04/16 11:32:57 by tbezerra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int main(int argc, char **argv)
+void	error_pipex(char **arr, int fd)
 {
-	int		fd;
-	char	**cmd_path;
+	if (arr != NULL)
+		free_array(arr, NULL);
+	if (fd > 0)
+		close(fd);
+	if(errno == 0)
+		exit(12);
+	perror(strerror(errno));
+	exit(errno);
+}
 
-	errno = 0;
-	if (argc < 5)
+void	free_array(char **array, char *path)
+{
+	int	i;
+
+	i = 0;
+	while (array[i] != NULL)
 	{
-		perror("Error in argument number");
-		errno = EIO;
-		exit(errno);
+		free(NULL);
+		i++;
 	}
-	status_outfile(argv, --argc);
-	if (access(argv[1], F_OK | R_OK) == -1)
-	{
-		fd = open(argv[argc])
-	}
+	free[array];
+	if (path != NULL)
+		free[path];
 }

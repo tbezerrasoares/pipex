@@ -15,3 +15,12 @@
 
 <h4>FORK</h4>
 <p>É uma chamada do sistema que cria um novo processo duplicando o processo de chamada. O novo processo é conhecido como o processo filho, enquanto o processo original é conhecido como o processo pai. Após a bifurcação, ambos os processos executam o mesmo código, mas cada um tem um espaço de memória separado.</p>
+
+<h3>Importante</h3>
+<p>Nos utilizamos variaveis globeis nesse projeto, nesse caso a variavel utilizada errno que é usada para indicar erros durante a execução de funções da biblioteca padrão ou de outras funções que a definem. Esses erros geralmente ocorrem durante operações que não podem ser concluídas com sucesso por algum motivo, como abrir um arquivo que não existe ou realizar uma operação de divisão por zero.</p>
+
+<h3>Informacoes sobre o funcionamento do programa PIPEX</h3>
+<p>Ele esperra a seguinte linha de comando:</p>
+<p>./pipex file1 cmd1 cmd2 file2</p>
+<p>Ex:  ./pipex infile "ls -l" "wc -l" outfile</p>
+<p>Pela configuracao do programa </p>
