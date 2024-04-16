@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbezerra <tbezerra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:53:46 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/04/16 10:35:57 by tbezerra         ###   ########.fr       */
+/*   Updated: 2024/04/16 19:31:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,6 @@ void	error_pipex(char **arr, int fd);
 void	free_array(char **array, char *path);
 void	status_outfile(char **argv, int argc);
 void	**status_split(char *cmd, char **arr);
+char	**get_path(char **environ);
+static char	*make_payh(char *path, char *cmd);
+char	*write_path(char *cmd, char **path);

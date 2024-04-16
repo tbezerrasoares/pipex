@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   status.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbezerra <tbezerra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:13:31 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/04/16 11:23:45 by tbezerra         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:51:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,19 @@ void	status_outfile(char **argv, int argc)
 	}
 }
 
-void	**status_split(char *cmd, char **arr)
+char	**status_split(char *cmd, char **arr)
 {
 	char	**part;
 
 	if(access(cmd, F_OK) == -1)
-		handle_erro
+		part = ft_split(cmd, ' ');
+	else
+	{
+		if (access(cmd, X_OK) == 1)
+			error_pipex(arr, 0);
+		part = malloc(sizeof(char *) * 2);
+		*part = ft_substr(cmd, 0, ft_strlen(cmd));
+		*(part + 1) = NULL;
+	}
+	return (part);
 }

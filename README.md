@@ -16,8 +16,12 @@
 <h4>FORK</h4>
 <p>É uma chamada do sistema que cria um novo processo duplicando o processo de chamada. O novo processo é conhecido como o processo filho, enquanto o processo original é conhecido como o processo pai. Após a bifurcação, ambos os processos executam o mesmo código, mas cada um tem um espaço de memória separado.</p>
 
+<h4>PIPE</h4>
+<p>A função pipe() em C é usada para criar um pipe, que é um mecanismo de comunicação entre processos. Um pipe é uma estrutura de dados que permite a comunicação unidirecional entre dois processos: um processo pode escrever dados no pipe e o outro pode ler esses dados do pipe. Os pipes são frequentemente usados em sistemas operacionais UNIX e sistemas operacionais semelhantes para a comunicação entre processos.</p>
+
 <h3>Importante</h3>
 <p>Nos utilizamos variaveis globeis nesse projeto, nesse caso a variavel utilizada errno que é usada para indicar erros durante a execução de funções da biblioteca padrão ou de outras funções que a definem. Esses erros geralmente ocorrem durante operações que não podem ser concluídas com sucesso por algum motivo, como abrir um arquivo que não existe ou realizar uma operação de divisão por zero.</p>
+<p>Tambem e utilizado a variavel environ, é uma variável global que contém o ambiente do processo. O ambiente do processo consiste em uma lista de strings de ambiente, onde cada string é da forma "nome=valor", representando uma variável de ambiente e seu valor associado.</p>
 
 <h3>Informacoes sobre o funcionamento do programa PIPEX</h3>
 <p>Ele esperra a seguinte linha de comando:</p>
