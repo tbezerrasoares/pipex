@@ -23,4 +23,4 @@
 <p>Ele esperra a seguinte linha de comando:</p>
 <p>./pipex file1 cmd1 cmd2 file2</p>
 <p>Ex:  ./pipex infile "ls -l" "wc -l" outfile</p>
-<p>Pela configuracao do programa </p>
+<p>Pela configuracao do Main do programa ele pode trabalha com um file ja existente como um novo file.</p>
