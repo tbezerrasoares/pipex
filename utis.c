@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:24:33 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/04/16 19:31:01 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/19 18:22:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,10 @@ char	*write_path(char *cmd, char **path)
 		path_cmd = ft_substr(cmd, 0, ft_strlen);
 	}
 	return (path_cmd);
+}
+
+void	cmd_not_found(char *cmd)
+{
+	ft_printf("command not found: %s\n", cmd);
+	errno = EKEYEXPIRED;
 }
