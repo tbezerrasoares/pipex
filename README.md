@@ -24,7 +24,7 @@
 
 <h3>Importante</h3>
 <p>Nos utilizamos variaveis globeis nesse projeto, nesse caso a variavel utilizada errno que é usada para indicar erros durante a execução de funções da biblioteca padrão ou de outras funções que a definem. Esses erros geralmente ocorrem durante operações que não podem ser concluídas com sucesso por algum motivo, como abrir um arquivo que não existe ou realizar uma operação de divisão por zero.</p>
-<p>Tambem e utilizado a variavel environ, é uma variável global que contém o ambiente do processo. O ambiente do processo consiste em uma lista de strings de ambiente, onde cada string é da forma "nome=valor", representando uma variável de ambiente e seu valor associado.</p>
+<p>Tambem e utilizado a variavel environ, é uma variável global que contém o ambiente do processo. O ambiente do processo consiste em uma lista de strings de ambiente, onde cada string é da forma "nome=valor", representando uma variável de ambiente e seu valor associado. Essa Variavel e responsalvel por informar os caminhos para os processo que nos utilizaremos para a funcao EXECVE</p>
 
 <h3>Informacoes sobre o funcionamento do programa PIPEX</h3>
 <p>Ele esperra a seguinte linha de comando:</p>

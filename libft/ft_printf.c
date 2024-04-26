@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf.h"
-#include <stdio.h>
+#include "libft.h"
 
 int	ft_putchar_len(int c)
 {

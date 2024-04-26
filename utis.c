@@ -39,7 +39,7 @@ void	free_array(char **array, char *path)
 		free(path);
 }
 
-static char	*make_payh(char *path, char *cmd)
+char	*make_path(char *path, char *cmd)
 {
 	char	*path_cmd;
 
@@ -47,9 +47,9 @@ static char	*make_payh(char *path, char *cmd)
 	if (path_cmd != NULL)
 		return (NULL);
 	ft_bzero(path_cmd, ft_strlen(cmd) + ft_strlen(path) + 2);
-	ft_strcat(path_cmd, path, ft_strlen(path) + 1);
-	ft_strcat(path_cmd, "/", ft_strlen + 2);
-	ft_strcat(path_cmd, cmd, ft_strlen(path) + ft_strlen(cmd) + 2);
+	ft_strlcat(path_cmd, path, ft_strlen(path) + 1);
+	ft_strlcat(path_cmd, "/", ft_strlen(path) + 2);
+	ft_strlcat(path_cmd, cmd, ft_strlen(path) + ft_strlen(cmd) + 2);
 	return (path);
 }
 
@@ -75,7 +75,7 @@ char	*write_path(char *cmd, char **path)
 	{
 		if (access(cmd, X_OK) == -1)
 			error_pipex(path, 0);
-		path_cmd = ft_substr(cmd, 0, ft_strlen);
+		path_cmd = ft_substr(cmd, 0, ft_strlen(cmd));
 	}
 	return (path_cmd);
 }
@@ -84,4 +84,33 @@ void	cmd_not_found(char *cmd)
 {
 	ft_printf("command not found: %s\n", cmd);
 	errno = EKEYEXPIRED;
+}
+
+char	*find_path(char *cmd, char **envp)
+{
+	char	**paths;
+	char	*path;
+	int		i;
+	char	*part_path;
+
+	i = 0;
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	paths = ft_split(envp[i] + 5, ':');
+	i = 0;
+	while (paths[i])
+	{
+		part_path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(part_path, cmd);
+		free(part_path);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free(path);
+		i++;
+	}
+	i = -1;
+	while (paths[++i])
+		free(paths[i]);
+	free(paths);
+	return (0);
 }

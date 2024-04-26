@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf.h"
+#include "libft.h"
 
 int	ft_putnbr_base_u(unsigned long nbr, char *base)
 {

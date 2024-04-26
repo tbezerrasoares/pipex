@@ -20,15 +20,15 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <errno.h>
-#include "./libft/ft_printf.h"
+#include "./libft/libft.h"
 
 extern char	**environ;
 
-void	error_pipex(char **arr, int fd);
-void	free_array(char **array, char *path);
-void	status_outfile(char **argv, int argc);
-void	**status_split(char *cmd, char **arr);
-char	**get_path(char **environ);
-static char	*make_payh(char *path, char *cmd);
-char	*write_path(char *cmd, char **path);
-void	cmd_not_found(char *cmd);
+void		error_pipex(char **arr, int fd);
+void		free_array(char **array, char *path);
+void		status_outfile(char **argv, int argc);
+char		**status_split(char *cmd, char **arr);
+char		**get_path(char **environ);
+char		*make_payh(char *path, char *cmd);
+char		*write_path(char *cmd, char **path);
+void		cmd_not_found(char *cmd);

@@ -10,38 +10,31 @@
 #                                                                              #
 # **************************************************************************** #
 
-PRE = ./
-HEADER = ./
-FUNCTION = ./libft
-
-SOURCE = main.c utis.c get_path.c status.c
-
-SOURCES = ${addprefix $(PRE), $(SOURCE)}
-
 NAME = pipex
-LIB = $(FUNCTION)/libftprintf.a
-
+HEADER = ./
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g
+LIBFT = ./libft/libft.a
+CFLAGS = -Wall -Werror -Wextra
 
-OBJ = $(SOURCES:.c=.o)
+SRCS = main.c get_path.c status.c utis.c
+
+OBJS = ${SRCS:.c=.o}
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIB)
-	cc $(FLAGS) -o $@ $^
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
 
-$(LIB):
-	$(MAKE) -C $(FUNCTION)
-.c.o:
-	$(CC) $(FLAGS) -I $(HEADER) -c $< -o $(<:.c=.o)
-	
-clean: 
-	rm -f $(OBJ) $(OBJ_BON)
-	$(MAKE) clean -C $(FUNCTION)
+$(LIBFT):
+	$(MAKE) -C ./libft
+
+%.o: %.c
+	$(CC) $(CFLAGS) -I$(HEADER) -c $(SRCS)
+
+clean:
+	$(RM) $(OBJS)
 
 fclean: clean
-	rm -f $(NAME)
-	$(MAKE) fclean -C $(FUNCTION)
+	$(RM) $(NAME)
 
-re: fclean all
+re: fclean $(NAME)

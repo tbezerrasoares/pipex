@@ -13,9 +13,15 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <stdarg.h>
+# include <stdint.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
+
+# define DECIMAL   "0123456789"
+# define HEX_LOWER "0123456789abcdef"
+# define HEX_UPPER "0123456789ABCDEF"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 100
@@ -82,5 +88,19 @@ char	*ft_erro(char *rest, char *line, int size);
 int		ft_strlen2(char *str);
 int		check_char(char *s, int c);
 char	*ft_strjoin2(char *rest, char *line);
+
+/*Ft_Printf*/
+int		ft_printf(const char *str, ...);
+int		ft_putchar_var(va_list arg, const char var);
+int		ft_putnbr_base(long nbr, char *base);
+int		ft_putnbr_base_u(unsigned long nbr, char *base);
+int		ft_putchar_len(int c);
+int		ft_printmem(unsigned long long num);
+void	ft_putstr(char *str);
+int		ft_printstr(char *str);
+int		ft_printnbr(int n);
+int		ft_printpercent(void);
+
+
 
 #endif

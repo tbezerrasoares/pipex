@@ -10,42 +10,36 @@
 #                                                                              #
 # **************************************************************************** #
 
-PRE = ./ft_printf/
+NAME = libft.a
 HEADER = ./
-FUNCTION = ./libft
-
-
-SOURCE = ft_printf.C ft_printf_aux.c ft_printf_mem.c ft_printf_utils.c
-
-SOURCES = ${addprefix $(PRE), $(SOURCE)}
-
-NAME = libftprintf.a
-LIB = $(FUNCTION)/libft.a
-
-
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Werror -Wextra
 
-OBJ = $(SOURCES:.c=.o)
+SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c\
+        ft_isdigit.c ft_isprint.c ft_itoa.c ft_lstadd_back.c ft_lstadd_front.c\
+        ft_lstclear.c ft_lstdelone.c ft_lstiter.c ft_lstlast.c ft_lstmap.c\
+        ft_lstnew.c ft_lstsize.c ft_memchr.c ft_memcmp.c ft_memcpy.c\
+        ft_memmove.c ft_memset.c ft_printf_aux.c ft_printf_mem.c ft_printf.c\
+        ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c\
+        ft_split.c ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c\
+        ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c\
+        ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c ft_tolower.c\
+        ft_toupper.c get_next_line_bonus.c get_next_line_utils_bonus.c
+
+OBJS = ${SRCS:.c=.o}
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(MAKE) -C $(FUNCTION)
-	cp $(LIB) $@
-	ar rcs $@ $(OBJ)
+$(NAME): $(OBJS)
+	ar rcs $(NAME) $(OBJS)
 
-.c.o:
-	$(CC) $(FLAGS) -I $(HEADER) -I $(FUNCTION) -c $< -o $(<:.c=.o)
+%.o: %.c
+	$(CC) $(CFLAGS) -I$(HEADER) -c $(SRCS)
 
-clean: 
-	rm -f $(OBJ) $(OBJ_BONUS)
-	$(MAKE) clean -C $(FUNCTION)
-        
+clean:
+	$(RM) $(OBJS)
+
 fclean: clean
-	rm -f $(NAME)
-	$(MAKE) fclean -C $(FUNCTION)
+	$(RM) $(NAME)
 
-re: fclean all
-
-.PHONY: all clean fclean re bonus
+re: fclean $(NAME)
