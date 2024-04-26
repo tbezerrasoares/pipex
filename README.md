@@ -3,7 +3,7 @@
 <p> Pipe é uma chamada de sistema que cria um canal de dados unidirecional que pode ser usado para comunicação entre processos. Os dados gravados em uma extremidade do tubo podem ser lidos da outra extremidade do tubo. Os pipes são frequentemente usados em combinação com para criar um canal de comunicação entre os processos pai e filho.</p>
 <p> A Pipex se concentra em três conceitos principais: pipelines, processos filhos e execução de comandos.</p>
 <p>A ideia geral: lemos do infile, executamos o cmd1 com o infile como entrada, enviamos a saída para o cmd2, que irá gravar no outfile.</p>
-(```)./pipex infile cmd1 cmd2 outfile
+<p>./pipex infile cmd1 cmd2 outfile</p>
 
 <h3>Noções Basicas sobres a Funções utilizadas</h3>
 <h4>DUP2</h4>
