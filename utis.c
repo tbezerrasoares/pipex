@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utis.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: tbezerra <tbezerra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:24:33 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/04/19 18:22:32 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/27 10:46:47 by tbezerra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,9 @@ char	*write_path(char *cmd, char **path)
 	}
 	else
 	{
-		if (access(cmd, X_OK) == -1)
+		if (access(cmd, X_OK) == -1){
 			error_pipex(path, 0);
+			ft_putstr_fd("\033[31mError function write_path\n\e[0m", 2);}
 		path_cmd = ft_substr(cmd, 0, ft_strlen(cmd));
 	}
 	return (path_cmd);

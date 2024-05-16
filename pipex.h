@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:53:46 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/04/19 18:22:43 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/16 18:00:08 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,3 +32,4 @@ char		**get_path(char **environ);
 char		*make_payh(char *path, char *cmd);
 char		*write_path(char *cmd, char **path);
 void		cmd_not_found(char *cmd);
+void	    execute(char *argv, char **envp);

@@ -1,0 +1,14 @@
+Makefile
+README.md
+get_path.c
+get_path.o
+infile
+libft
+main.c
+main.o
+pipex
+pipex.h
+status.c
+status.o
+utis.c
+utis.o
