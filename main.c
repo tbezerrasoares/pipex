@@ -6,174 +6,182 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:52:28 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/05/16 18:13:39 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/21 18:18:43 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	pipe_fd(int *fd, int mode, char **cmd_path)
+void	child_process(t_pipex pipex, char **argv)
 {
-	if (mode == 0)
+	dup2(pipex.tube[1], STDOUT_FILENO);
+	close(pipex.tube[0]);
+	dup2(pipex.infile, STDIN_FILENO);
+	pipex.cmd_args = ft_split(argv[2], ' ');
+	pipex.cmd = get_cmd(pipex.cmd_paths, pipex.cmd_args[0]);
+	if (!pipex.cmd)
 	{
-		if (dup2(fd[1], 1) == -1 || dup2(fd[0], 0) == -1)
-		{
-			close(fd[0]);
-			close(fd[1]);
-			error_pipex(cmd_path, 0);
-			ft_putstr_fd("\033[31mError function pipe_fd\n\e[0m", 2);
-		}
+		process_free(&pipex);
+		msg_error(ERR_CMD);
+		exit(1);	
 	}
-	else
-	{
-		close(fd[0]);
-		close(fd[1]);
-		error_pipex(cmd_path, 0);
-		ft_putstr_fd("\033[31mError function pipe_fd\n\e[0m", 2);
-	}
+	execve(pipex.cmd, pipex.cmd_args, environ);
 }
 
-/* void	dad_process(int *fd, char **argv, int argc, char **cmd_path)
+void	parent_process(t_pipex pipex, char **argv)
 {
-	char	*path;
-	char	**cmd;
-	int		set;
-
-
-	close(fd[1]);
-	fd[1] = open(argv[argc], O_WRONLY | O_CREAT, 0777);
-	if (fd[1] == -1)
-		error_pipex(cmd_path, fd[0]);
-	waitpid(-1, &set, WUNTRACED);
-	pipe_fd(fd, 0, cmd_path);
-	cmd = status_split(argv[argc - 1], cmd_path);
-	ft_printf("teste\n");
-	int		i;
-	for (i = 0; cmd[i] != NULL; i++) {
-        ft_printf("cmd[%d] = %s\n", i, cmd[i]);
-    }
-	if (cmd == NULL)
-		error_pipex(cmd_path, 0);
-	path = write_path(cmd[0], cmd_path);
-	free_array(cmd_path, NULL);
-	ft_printf("%s\n", path);
-	if (execve(path, cmd, environ) == -1)
+	dup2(pipex.tube[0], STDIN_FILENO);
+	close(pipex.tube[1]);
+	dup2(pipex.outfile, STDOUT_FILENO);
+	pipex.cmd_args = ft_split(argv[3], ' ');
+	pipex.cmd = get_cmd(pipex.cmd_paths, pipex.cmd_args[0]);
+	if (!pipex.cmd)
 	{
-		if (errno == ENOENT || errno == EKEYEXPIRED)
-			cmd_not_found(cmd[0]);
-		else{
-			perror(strerror(errno));
-			ft_putstr_fd("\033[31mError function dad_process\n\e[0m", 2);}
-		free_array(cmd, path);
-		exit(errno);
+		process_free(&pipex);
+		msg_error(ERR_CMD);
+		exit(1);
 	}
-} */
-
-void	dad_process(int *fd, char **argv, char **cmd_path)
-{
-	int		fileout;
-
-	fileout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (fileout == -1)
-		error_pipex(cmd_path, fd[0]);
-	dup2(fd[0], STDIN_FILENO);
-	dup2(fileout, STDOUT_FILENO);
-	close(fd[1]);
-	execute(argv[3], cmd_path);
+	execve(pipex.cmd, pipex.cmd_args, environ);
 }
 
-void	son_process(int *fd, char **argv, char **cmd_path)
+void	pipex_fork(t_pipex *pipex, char **argv)
 {
-	int		filein;
-
-	filein = open(argv[1], O_RDONLY, 0777);
-	if (filein == -1)
-		error_pipex(cmd_path, fd[0]);
-	dup2(fd[1], STDOUT_FILENO);
-	dup2(filein, STDIN_FILENO);
-	close(fd[0]);
-	execute(argv[2], cmd_path);
-}
-
-/* void	son_process(int *fd, char **argv, char **cmd_path)
-{
-	char	*path;
-	char	**cmd;
-	int		i;
-
-	close(fd[0]);
-	fd[0] = open(argv[1], O_RDONLY);
-	if (fd[0] == -1)
-		error_pipex(cmd_path, fd[1]);
-	pipe_fd(fd, 0, cmd_path);
-	cmd = status_split(argv[2], cmd_path);
-	for (i = 0; cmd[i] != NULL; i++) {
-        printf("cmd[%d] = %s\n", i, cmd[i]);
-    }
-	if (cmd == NULL)
-		error_pipex(cmd_path, 0);
-	path = write_path(cmd[0], cmd_path);
-	free_array(cmd_path, NULL);
-	ft_printf("%s\n", path);
-	if (execve(path, cmd, environ) == -1)
+	pipex->pid = fork();
+	if (pipex->pid == -1)
 	{
-		if (errno == ENOENT || errno == EKEYEXPIRED)
-			cmd_not_found(cmd[0]);
-		else{
-			perror(strerror(errno));
-			ft_putstr_fd("\033[31mError function son_process\n\e[0m", 2);}
-		free_array(cmd, path);
+		process_free(pipex);
+		msg_error(ERR_FORK);
+		exit(1);
 	}
-	
-} */
-
-int	pipe_fork(char **argv, char **cmd_path)
-{
-	int	fd[2];
-	int	id;
-
-	if (pipe(fd) == -1)
-		error_pipex(NULL, 0);
-	id = fork();
-	if (id == -1)
-	{
-		pipe_fd(fd, 1, cmd_path);
-		ft_putstr_fd("\033[31mError function pipe_fork\n\e[0m", 2);
-		error_pipex(NULL, 0);
-	}
-	else if (id == 0)
-		son_process(fd, argv, cmd_path);
-	else
-		dad_process(fd, argv, cmd_path);
-	return (0);
+	else if (pipex->pid == 0)
+		child_process(*pipex, argv);
+	pipex->pid2 = fork();
+	if (pipex->pid2 == 0)
+		parent_process(*pipex, argv);
+	close_pipes(pipex);
+	waitpid(pipex->pid, NULL, 0);
+	waitpid(pipex->pid2, NULL, 0);
+	file_free(pipex);
 }
 
 int main(int argc, char **argv)
 {
-	int		fd;
-	char	**cmd_path;
+	t_pipex	pipex;
 
-	errno = 0;
 	if (argc != 5)
 	{
-		ft_putstr_fd("\033[31mError in argument number\n\e[0m", 2);
-		ft_putstr_fd("Ex: ./pipex <file1> <cmd1> <cmd2> <file2>\n", 1);
+		ft_putstr_fd(ERR_INPUT, 2);
+		exit(1);
 	}
-	status_outfile(argv, --argc);
-	if (access(argv[1], F_OK | R_OK) == -1)
-	{
-		fd = open(argv[argc], O_WRONLY, O_CREAT, 0777);
-		if (fd == -1)
-			error_pipex(NULL, 0);
-		write(fd, "0\n", 2);
-		perror(strerror(errno));
-		ft_putstr_fd("\033[31mError function main\n\e[0m", 2);
-		exit(0);
-	}
-	cmd_path = get_path(environ);
-/* 	int		i;
-	for (i = 0; cmd_path[i] != NULL; i++) {
-        printf("cmd_path[%d] = %s\n", i, cmd_path[i]);
-    } */
-	return (pipe_fork(argv, cmd_path));
+	pipex.infile = open(argv[1], O_RDONLY, 0777);
+	if (pipex.infile == -1)
+		msg_error(ERR_INFILE);
+	pipex.outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (pipex.outfile == -1)
+		msg_error(ERR_OUTFILE);
+	if (pipe(pipex.tube) == -1)
+		msg_error(ERR_PIPE);
+	pipex.path = find_path(environ);
+	pipex.cmd_paths = ft_split(pipex.path, ':');
+	pipex_fork(&pipex, argv);
+	return (0);
 }
+/* void child_process(char **argv, int *p_fd)
+{
+	int		fd;
+	char *filename = "/bin/ls";
+	char *ar[] = { "ls", "-l", NULL };
+	char *path[] = { "PATH=/usr/bin", NULL };
+		
+	fd = open(argv[1], O_RDONLY, 0777);
+	if (fd == -1)
+	{
+		ft_putstr_fd("Error: File not found\n", 2);
+		exit(1);
+	}
+	dup2(p_fd[1], STDOUT_FILENO);
+	dup2(fd, STDIN_FILENO);
+	close(p_fd[0]);
+	execve(filename, ar, path);
+}
+
+void parent_process(char **argv, int *p_fd)
+{
+	int		fd;
+	char *filename = "/bin/wc";
+	char *ar[] = { "wc", "-l", NULL };
+	char *path[] = { "PATH=/usr/bin", NULL };
+	
+	fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (fd == -1)
+	{
+		ft_putstr_fd("Error: File not found\n", 2);
+		exit(1);
+	}	
+	dup2(p_fd[0], STDIN_FILENO);
+	dup2(fd, STDOUT_FILENO);
+	close(p_fd[1]);
+	execve(filename, ar, path);
+}
+
+int main(int argc, char **argv)
+{
+	int		p_fd[2];
+	pid_t	pid;
+
+	if (argc != 5)
+	{
+		ft_putstr_fd("Error: Wrong number of arguments\n", 2);
+		exit(1);
+	}
+	if (pipe(p_fd) == -1)
+	{
+		ft_putstr_fd("Error: Pipe failed\n", 2);
+		exit(1);
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		ft_putstr_fd("Error: Fork failed\n", 2);
+		exit(1);
+	}
+	if (pid == 0)
+		child_process(argv, p_fd);
+	waitpid(pid, NULL, 0);
+	parent_process(argv, p_fd);
+} */
+
+/* int main() {
+	char *cmd = "ls";
+	char **path = get_path(environ);
+	char *result = find_path(cmd, environ);
+	//int i;
+	printf("Path command: %s\n", result);
+	for (i = 0; path[i] != NULL; i++)
+		printf("path[%d] = %s\n", i, path[i]);
+	free(result);
+	free(cmd);
+	free_ft_split(path);
+	return 0;
+} */
+
+
+/* int main() {
+	char *filename = "/bin/ls";
+	char *argv[] = { "ls", "-l", NULL };
+	char *envp[] = { "PATH=/usr/bin", NULL };
+
+	ft_printf("Executing %s\n", filename);
+	ft_printf("With arguments:%s\n", argv[0]);
+	ft_printf("With arguments:%s\n", argv[1]);
+	ft_printf("With environment:%s\n", envp[0]);
+	execve(filename, argv, envp);
+
+	char *filename2 = "/bin/pwd";
+	char *argv2[] = { "pwd", NULL };
+	char *envp2[] = { "PATH=/usr/bin", NULL };
+
+	execve(filename2, argv2, envp2);
+
+	return 0;
+} */

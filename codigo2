@@ -1,0 +1,99 @@
+void child_process(char **argv, int *p_fd)
+{
+	int		fd;
+	char *filename = "/bin/ls";
+	char *ar[] = { "ls", "-l", NULL };
+	char *path[] = { "PATH=/usr/bin", NULL };
+		
+	fd = open(argv[1], O_RDONLY, 0777);
+	if (fd == -1)
+	{
+		ft_putstr_fd("Error: File not found\n", 2);
+		exit(1);
+	}
+	dup2(p_fd[1], STDOUT_FILENO);
+	close(p_fd[0]);
+	dup2(fd, STDIN_FILENO);
+	execve(filename, ar, path);
+}
+
+void parent_process(char **argv, int *p_fd)
+{
+	int		fd;
+	char *filename = "/bin/wc";
+	char *ar[] = { "wc", "-l", NULL };
+	char *path[] = { "PATH=/usr/bin", NULL };
+	
+	fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (fd == -1)
+	{
+		ft_putstr_fd("Error: File not found\n", 2);
+		exit(1);
+	}	
+	dup2(p_fd[0], STDIN_FILENO);
+	close(p_fd[1]);
+	dup2(fd, STDOUT_FILENO);
+	execve(filename, ar, path);
+}
+
+int main(int argc, char **argv)
+{
+	int		p_fd[2];
+	pid_t	pid;
+
+	if (argc != 5)
+	{
+		ft_putstr_fd("Error: Wrong number of arguments\n", 2);
+		exit(1);
+	}
+	if (pipe(p_fd) == -1)
+	{
+		ft_putstr_fd("Error: Pipe failed\n", 2);
+		exit(1);
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		ft_putstr_fd("Error: Fork failed\n", 2);
+		exit(1);
+	}
+	if (pid == 0)
+		child_process(argv, p_fd);
+	waitpid(pid, NULL, 0);
+	parent_process(argv, p_fd);
+}
+
+/* int main() {
+	char *cmd = "ls";
+	char **path = get_path(environ);
+	char *result = find_path(cmd, environ);
+	//int i;
+	printf("Path command: %s\n", result);
+	for (i = 0; path[i] != NULL; i++)
+		printf("path[%d] = %s\n", i, path[i]);
+	free(result);
+	free(cmd);
+	free_ft_split(path);
+	return 0;
+} */
+
+
+/* int main() {
+	char *filename = "/bin/ls";
+	char *argv[] = { "ls", "-l", NULL };
+	char *envp[] = { "PATH=/usr/bin", NULL };
+
+	ft_printf("Executing %s\n", filename);
+	ft_printf("With arguments:%s\n", argv[0]);
+	ft_printf("With arguments:%s\n", argv[1]);
+	ft_printf("With environment:%s\n", envp[0]);
+	execve(filename, argv, envp);
+
+	char *filename2 = "/bin/pwd";
+	char *argv2[] = { "pwd", NULL };
+	char *envp2[] = { "PATH=/usr/bin", NULL };
+
+	execve(filename2, argv2, envp2);
+
+	return 0;
+} */

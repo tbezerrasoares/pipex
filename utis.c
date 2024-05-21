@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utis.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbezerra <tbezerra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:24:33 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/04/27 10:46:47 by tbezerra         ###   ########.fr       */
+/*   Updated: 2024/05/21 18:04:52 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	error_pipex(char **arr, int fd)
+/* void	error_pipex(char **arr, int fd)
 {
 	if (arr != NULL)
 		free_array(arr, NULL);
@@ -22,9 +22,50 @@ void	error_pipex(char **arr, int fd)
 		exit(12);
 	perror(strerror(errno));
 	exit(errno);
+} */
+
+void	msg_error(char *err)
+{
+	perror(err);
+	exit (1);
 }
 
-void	free_array(char **array, char *path)
+void	close_pipes(t_pipex *pipex)
+{
+	close(pipex->tube[0]);
+	close(pipex->tube[1]);
+}
+
+void	process_free(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	while (pipex->cmd_args[i])
+	{
+		free(pipex->cmd_args[i]);
+		i++;
+	}
+	free(pipex->cmd_args);
+	free(pipex->cmd);
+}
+
+void	file_free(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	close(pipex->infile);
+	close(pipex->outfile);
+	while (pipex->cmd_paths[i])
+	{
+		free(pipex->cmd_paths[i]);
+		i++;
+	}
+	free(pipex->cmd_paths);
+}
+
+/* void	free_array(char **array, char *path)
 {
 	int	i;
 
@@ -37,9 +78,9 @@ void	free_array(char **array, char *path)
 	free(array);
 	if (path != NULL)
 		free(path);
-}
+} */
 
-char	*make_path(char *path, char *cmd)
+/*char	*make_path(char *path, char *cmd)
 {
 	char	*path_cmd;
 
@@ -79,7 +120,7 @@ char	*write_path(char *cmd, char **path)
 		path_cmd = ft_substr(cmd, 0, ft_strlen(cmd));
 	}
 	return (path_cmd);
-}
+}*/
 
 void	cmd_not_found(char *cmd)
 {
@@ -87,7 +128,7 @@ void	cmd_not_found(char *cmd)
 	errno = EKEYEXPIRED;
 }
 
-char	*find_path(char *cmd, char **envp)
+/*char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path;
@@ -114,4 +155,4 @@ char	*find_path(char *cmd, char **envp)
 		free(paths[i]);
 	free(paths);
 	return (0);
-}
+}*/

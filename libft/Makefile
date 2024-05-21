@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+         #
+#    By: tbezerra <tbezerra@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/06 12:16:36 by tbezerra          #+#    #+#              #
-#    Updated: 2023/11/06 16:31:09 by tbezerra         ###   ########.fr        #
+#    Updated: 2024/05/17 14:20:32 by tbezerra         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c\
         ft_split.c ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c\
         ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c\
         ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c ft_tolower.c\
-        ft_toupper.c get_next_line_bonus.c get_next_line_utils_bonus.c
+        ft_toupper.c get_next_line_bonus.c get_next_line_utils_bonus.c\
+		free_ft_split.c ft_strcmp.c
 
 OBJS = ${SRCS:.c=.o}
 

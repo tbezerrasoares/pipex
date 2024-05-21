@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: tbezerra <tbezerra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:29:53 by tbezerra          #+#    #+#             */
-/*   Updated: 2023/10/25 17:07:27 by tbezerra         ###   ########.fr       */
+/*   Updated: 2024/05/17 14:20:17 by tbezerra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ int		ft_printstr(char *str);
 int		ft_printnbr(int n);
 int		ft_printpercent(void);
 
-
+/*Extras*/
+void	free_ft_split(char **split);
+int		ft_strcmp(char *s1, char *s2);
 
 #endif

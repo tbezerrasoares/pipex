@@ -6,13 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:13:31 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/05/16 18:02:43 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/21 15:57:39 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	status_outfile(char **argv, int argc)
+/* void	status_outfile(char **argv, int argc)
 {
 	if (access(argv[argc], F_OK) == 0)
 	{
@@ -45,9 +45,9 @@ char	**status_split(char *cmd, char **arr)
         printf("part[%d] = %s\n", i, part[i]);
     }
 	return (part);
-}
+} */
 
-void	execute(char *argv, char **envp)
+/*void	execute(char *argv, char **envp)
 {
 	char	**cmd;
 	int 	i;
@@ -66,4 +66,4 @@ void	execute(char *argv, char **envp)
 	}
 	if (execve(path, cmd, envp) == -1)
 		perror(strerror(errno));
-}
+}*/

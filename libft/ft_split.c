@@ -3,75 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:27:48 by tbezerra          #+#    #+#             */
-/*   Updated: 2023/10/25 16:02:26 by tbezerra         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:55:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	count_char(const char *s, char c)
+static char	**ft_malloc_error(char **tab)
 {
-	int	i;
-	int	mark;
+	size_t	i;
 
 	i = 0;
-	mark = 0;
-	while (*s)
+	while (tab[i])
 	{
-		if (*s != c && mark == 0)
-		{
-			mark = 1;
-			i++;
-		}
-		else if (*s == c)
-			mark = 0;
-		s++;
+		free(tab[i]);
+		i++;
 	}
-	return (i);
+	free(tab);
+	return (NULL);
 }
 
-char	*str_dup(const char *s, int start, int finish)
+static size_t	ft_nb_words(char const *s, char c)
 {
-	char	*word;
-	int		i;
+	size_t	i;
+	size_t	nb_words;
 
+	if (!s[0])
+		return (0);
 	i = 0;
-	word = malloc ((finish - start +1) * sizeof(char));
-	while (start < finish)
-		word[i++] = s[start++];
-	word[i] = '\0';
-	return (word);
+	nb_words = 0;
+	while (s[i] && s[i] == c)
+		i++;
+	while (s[i])
+	{
+		if (s[i] == c)
+		{
+			nb_words++;
+			while (s[i] && s[i] == c)
+				i++;
+			continue ;
+		}
+		i++;
+	}
+	if (s[i - 1] != c)
+		nb_words++;
+	return (nb_words);
+}
+
+static void	ft_get_next_word(char **next_word, size_t *next_word_len, char c)
+{
+	size_t	i;
+
+	*next_word += *next_word_len;
+	*next_word_len = 0;
+	i = 0;
+	while (**next_word && **next_word == c)
+		(*next_word)++;
+	while ((*next_word)[i])
+	{
+		if ((*next_word)[i] == c)
+			return ;
+		(*next_word_len)++;
+		i++;
+	}
 }
 
 char	**ft_split(char const *s, char c)
 {
+	char	**tab;
+	char	*next_word;
+	size_t	next_word_len;
 	size_t	i;
-	size_t	j;
-	int		index;
-	char	**split;
 
-	split = malloc ((count_char(s, c) + 1) * sizeof(char *));
-	if (!s || !split)
-		return (0);
+	if (!s)
+		return (NULL);
+	tab = (char **)malloc(sizeof(char *) * (ft_nb_words(s, c) + 1));
+	if (!tab)
+		return (NULL);
 	i = 0;
-	j = 0;
-	index = -1;
-	while (i <= ft_strlen(s))
+	next_word = (char *)s;
+	next_word_len = 0;
+	while (i < ft_nb_words(s, c))
 	{
-		if (s[i] != c && index < 0)
-			index = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
-		{
-			split[j++] = str_dup(s, index, i);
-			index = -1;
-		}
+		ft_get_next_word(&next_word, &next_word_len, c);
+		tab[i] = (char *)malloc(sizeof(char) * (next_word_len + 1));
+		if (!tab[i])
+			return (ft_malloc_error(tab));
+		ft_strlcpy(tab[i], next_word, next_word_len + 1);
 		i++;
 	}
-	split[j] = NULL;
-	return (split);
+	tab[i] = NULL;
+	return (tab);
 }
 
 /* #include <stdio.h>
