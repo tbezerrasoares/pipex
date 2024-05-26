@@ -16,7 +16,7 @@ CC = cc
 LIBFT = ./libft/libft.a
 CFLAGS = -Wall -Werror -Wextra
 
-SRCS = main.c get_path.c status.c utis.c
+SRCS = main.c get_path.c utis.c
 
 OBJS = ${SRCS:.c=.o}
 

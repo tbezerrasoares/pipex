@@ -24,41 +24,29 @@
 
 extern char	**environ;
 
-# define ERR_INFILE "Infile"
-# define ERR_OUTFILE "Outfile"
-# define ERR_INPUT "Invalid number of arguments.\n"
-# define ERR_PIPE "Pipe"
-# define ERR_FORK "Fork"
-# define ERR_CMD "Command not found\n"
+#define ERR_INFILE "Infile"
+#define ERR_OUTFILE "Outfile"
+#define ERR_INPUT "Invalid number of arguments.\n"
+#define ERR_PIPE "Pipe"
+#define ERR_FORK "Fork"
+#define ERR_CMD "Command not found\n"
 
 typedef struct pipex
 {
-    pid_t    pid;
-    pid_t    pid2;
-    int      tube[2];
-    int      infile;
-    int      outfile;
-    char     **cmd_paths;
-    char     **cmd_args;
-    char     *path;
-    char     *cmd;
-}t_pipex;
+	pid_t	pid;
+	pid_t	pid2;
+	int		tube[2];
+	int		infile;
+	int		outfile;
+	char	**cmd_paths;
+	char	**cmd_args;
+	char	*path;
+	char	*cmd;
+}	t_pipex;
 
-char	    *find_path(char **envp);
-void	    close_pipes(t_pipex *pipex);
-char	    *get_cmd(char **paths, char *cmd);
-void	    process_free(t_pipex *pipex);
-void	    file_free(t_pipex *pipex);
-void	    msg_error(char *err);
-
-
-/* void		error_pipex(char **arr, int fd);
-void		free_array(char **array, char *path);
-void		status_outfile(char **argv, int argc);
-char		**status_split(char *cmd, char **arr);
-char		**get_path(char **environ);
-char		*make_payh(char *path, char *cmd);
-char		*write_path(char *cmd, char **path);
-void		cmd_not_found(char *cmd);
-char	    *find_path(char *cmd, char **envp);
-void	    execute(char *argv, char **envp); */
+char	*find_path(char **envp);
+void	close_pipes(t_pipex *pipex);
+char	*get_cmd(char **paths, char *cmd);
+void	process_free(t_pipex *pipex);
+void	file_free(t_pipex *pipex);
+void	msg_error(char *err);

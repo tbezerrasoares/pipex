@@ -22,7 +22,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		return (len_src);
 	if (len_src < dstsize - 1)
 		len = len_src;
-	else 
+	else
 		len = dstsize - 1;
 	ft_memcpy(dst, src, len);
 	*(dst + len) = '\0';

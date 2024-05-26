@@ -14,15 +14,15 @@
 
 static int	ft_neg(int n)
 {
-	if (n < 0) 
+	if (n < 0)
 		return (-n);
-	else 
+	else
 		return (n);
 }
 
 static int	ft_sizecalc(int n)
 {
-	int	res;
+	int		res;
 
 	if (n <= 0)
 		res = 1;
