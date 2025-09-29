@@ -30,7 +30,7 @@ pipex/
 ├── codigo/
 ├── codigo2/
 └── README.md
-
+```
 Exemplos de Uso
 
 # Exemplo 1:
